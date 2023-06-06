@@ -1,0 +1,115 @@
+// Most common hashtag
+db.Twitter.aggregate([
+    {
+        $unwind : "$Tweets"
+    },
+    {
+        $unwind : "$Tweets.Hashtags"
+    },
+    {
+        $group : {
+            "_id": {
+                "Hashtag": "$Tweets.Hashtags"
+            },
+            "count": {
+                "$sum": 1
+            }
+        }
+    },
+    {
+        $sort : {
+            "count" : -1
+        }
+    },
+    { 
+        $limit : 1
+    }
+])
+
+// User with the most likes
+
+db.Twitter.aggregate([
+    {
+        $unwind : "$Tweets"
+    },
+    {
+        $group : {
+            "_id": {
+                "username": "$username"
+            },
+            "count": {
+                "$sum": "$Tweets.likes_number"
+            }
+        }
+    },
+    {
+        $sort : {
+            "count" : -1
+        }
+    },
+    { 
+        $limit : 1 
+    }
+])
+
+// Most positive tweet
+
+db.Twitter.aggregate([
+    {
+        $unwind : "$Tweets"
+    },
+    {
+        $sort : {
+        "Tweets.Sentiment.positive_prob": -1
+        }
+    },
+    { 
+        $limit : 1 
+    }
+])
+
+// Most negative tweet
+
+db.Twitter.aggregate([
+    {
+        $unwind : "$Tweets"
+    },
+    {
+        $sort : {
+        "Tweets.Sentiment.negative_prob": -1
+        }
+    },
+    { 
+        $limit : 1 
+    }
+])
+
+// Most common word in tweets
+
+db.Twitter.aggregate([
+    {
+        $unwind: "$Tweets"
+    },
+    {
+        $project: {
+            words: { $split: ["$Tweets.CONTENT", " "] }
+        }
+    },
+    {
+        $unwind: "$words"
+    },
+    {
+        $group: {
+            _id: "$words",
+            count: { $sum: 1 }
+        }
+    },
+    {
+        $sort : {
+            "count" : -1
+        }
+    },
+    { 
+        $limit : 1 
+    }
+])
