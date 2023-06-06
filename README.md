@@ -1,6 +1,6 @@
 # SOEN 363
 
-This project aims to analyze general sentiment towards gun control. This is done through an anlysis of tweets that involve the gun control topic. 
+This project  was done in group of 5 people and it aims to analyze general sentiment towards gun control. This is done through an anlysis of tweets that involve the gun control topic. 
 
 ## Steps to run similar experiment with these scripts:
 
