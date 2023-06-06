@@ -1,0 +1,3 @@
+SELECT DISTINCT u.name
+FROM "User" AS u
+ORDER BY u.name ASC
